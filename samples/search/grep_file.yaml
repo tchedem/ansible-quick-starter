@@ -1,0 +1,28 @@
+---
+
+- name: Grep for a string in a file
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+
+    - name: Search for string
+      command: grep -q "my_value" /etc/example.conf
+      register: grep_result
+      ignore_errors: true
+
+    - name: Display search result
+      debug:
+        msg: >
+          {% if grep_result.rc == 0 %}
+            String found in file.
+          {% else %}
+            String not found in file.
+          {% endif %}
+
+    - name: OR display search result
+      debug:
+        msg: String found in file.
+      when: grep_result.rc == 0

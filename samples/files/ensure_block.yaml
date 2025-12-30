@@ -1,0 +1,19 @@
+---
+
+- name: Ensure block of text in a file 
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+
+    # How do I ensure a block of text exists in a file ?
+    - name: Manage config block
+      blockinfile:
+        path: /etc/example.conf
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          max_connections=100
+          retry_attempts=5
+        create: yes

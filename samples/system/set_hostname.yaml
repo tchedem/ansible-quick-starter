@@ -1,0 +1,17 @@
+---
+
+# Set the system hostname correctly and persistently.
+
+- name: Set system hostname
+  hosts: all
+  become: true
+
+  vars:
+    hostname: web-01
+
+  tasks:
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"
+      # The hostname module ensures the change survives reboots
+      # and updates the system configuration properly.

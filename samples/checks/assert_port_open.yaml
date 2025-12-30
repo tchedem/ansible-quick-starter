@@ -1,0 +1,32 @@
+---
+
+- name: Assert port is open
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+
+    # How do I assert that a port is open ?
+    - name: Check port is open
+      wait_for:
+        host: 127.0.0.1
+        port: 80
+        timeout: 3
+      register: port_check
+
+    - name: Assert port 80 is open
+      assert:
+        that:
+          - port_check is succeeded
+        fail_msg: "Port 80 is NOT open"
+        success_msg: "Port 80 is open"
+
+    # Check port from controller
+    - name: Check port from controller
+      wait_for:
+        host: "{{ inventory_hostname }}"
+        port: 80
+        timeout: 3
+      delegate_to: localhost

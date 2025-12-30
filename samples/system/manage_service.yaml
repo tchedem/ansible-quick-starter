@@ -1,0 +1,25 @@
+---
+
+- name: Manage a system service
+  hosts: all
+  become: true
+
+  vars:
+    service_name: nginx
+
+  tasks:
+    - name: Ensure service is running and enabled
+      service:
+        name: "{{ service_name }}"
+        state: started
+        enabled: true
+
+    - name: Restart service if needed
+      service:
+        name: "{{ service_name }}"
+        state: restarted
+
+# 3 Important variables:
+# - service_name: The name of the service to manage
+# - state: The desired state of the service (started, stopped, restarted)
+# - enabled: Whether the service should be enabled to start at boot 

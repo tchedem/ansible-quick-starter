@@ -1,0 +1,14 @@
+---
+
+- name: Install a system package
+  hosts: all
+  become: true
+
+  vars:
+    package_name: curl
+
+  tasks:
+    - name: Ensure package is installed
+      package:
+        name: "{{ package_name }}"
+        state: present

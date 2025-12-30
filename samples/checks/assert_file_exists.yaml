@@ -1,0 +1,20 @@
+---
+
+- name: Assert file exists
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+
+    - name: Check file existence
+      stat:
+        path: /etc/example.conf
+      register: example_conf
+
+    - name: Create file if missing
+      file:
+        path: /etc/example.conf
+        state: touch
+      when: not example_conf.stat.exists

@@ -1,0 +1,37 @@
+---
+
+- name: Manage cron job
+  hosts: all
+  become: true
+
+  vars:
+    cron_user: root
+    cron_name: "cleanup tmp directory"
+    cron_job: "rm -rf /tmp/*"
+    cron_minute: "0"
+    cron_hour: "2"
+
+  tasks:
+    - name: Ensure cron job exists
+      cron:
+        name: "{{ cron_name }}"
+        user: "{{ cron_user }}"
+        minute: "{{ cron_minute }}"
+        hour: "{{ cron_hour }}"
+        job: "{{ cron_job }}"
+      # The cron module avoids duplicate entries and edits
+      # the correct crontab safely.
+
+    - name: Ensure cron job is absent
+      cron:
+        name: "{{ cron_name }}"
+        user: "{{ cron_user }}"
+        state: absent
+      # This task removes the cron job if it exists.
+
+  # Important variables:
+  # - cron_user: The user for whom the cron job is managed
+  # - cron_name: A unique name for the cron job
+  # - cron_job: The command to be executed
+  # - cron_minute: The minute field for scheduling
+  # - cron_hour: The hour field for scheduling

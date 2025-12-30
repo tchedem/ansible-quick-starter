@@ -1,0 +1,22 @@
+---
+
+- name: Manage sudoers safely
+  hosts: all
+  become: true
+
+  vars:
+    sudoers_file: /etc/sudoers.d/deploy
+    sudo_rule: "deploy ALL=(ALL) NOPASSWD:ALL"
+
+  tasks:
+    - name: Ensure sudoers rule is present
+      copy:
+        dest: "{{ sudoers_file }}"
+        content: "{{ sudo_rule }}\n"
+        owner: root
+        group: root
+        mode: '0440'
+        validate: 'visudo -cf %s'
+      # NEVER edit /etc/sudoers directly.
+      # Always use /etc/sudoers.d with validation.
+      # visudo ensures syntax correctness before applying.

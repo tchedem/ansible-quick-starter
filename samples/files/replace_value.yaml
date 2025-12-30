@@ -1,0 +1,18 @@
+---
+
+
+- name: Update configuration value
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+
+    # How do I change a config value safely ?
+
+    - name: Update config value
+      replace:
+        path: /etc/example.conf
+        regexp: '^timeout=.*'
+        replace: 'timeout=30'

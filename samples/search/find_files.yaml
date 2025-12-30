@@ -1,0 +1,19 @@
+---
+
+- name: Find files
+  hosts: all
+  become: true
+
+  vars:
+
+  tasks:
+  
+    - name: Find log files
+      find:
+        paths: /var/log
+        patterns: "*.log"
+      register: log_files
+
+    - name: Display found log files
+      debug:
+        var: log_files.files

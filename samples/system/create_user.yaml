@@ -1,0 +1,23 @@
+---
+
+# Create a user safely and idempotently.
+
+- name: Create a system user
+  hosts: all
+  become: true
+
+  vars:
+    username: deploy
+    user_shell: /bin/bash
+
+  tasks:
+    - name: Ensure user exists
+      user:
+        name: "{{ username }}"
+        shell: "{{ user_shell }}"
+        create_home: true
+        state: present
+
+
+# groups: sudo
+# append: true

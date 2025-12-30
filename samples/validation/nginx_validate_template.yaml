@@ -1,0 +1,29 @@
+---
+
+- name: Deploy nginx config safely
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Deploy nginx config with validation
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: '0644'
+        # -t : test
+        # -c : alternative config file
+        # %s : means to be replaced by the destination path, i.e. /etc/nginx/nginx.conf
+        validate: 'nginx -t -c %s'
+      notify: Reload nginx
+      backup: yes
+      backup_options:
+        dir: /var/backups/nginx_configs
+        mode: 0600
+
+  handlers:
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
