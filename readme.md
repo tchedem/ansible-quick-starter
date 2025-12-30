@@ -57,6 +57,12 @@ Talking about secrets, they are dozen of method available to protect secrets and
 
 ---
 
+**ToDo**
+
+- Update the `init.sh`. (Describe the actions to take, and get user inputs)
+
+---
+
 
 ***Reference:***
 
